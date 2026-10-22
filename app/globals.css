@@ -1,0 +1,427 @@
+/*
+  Look: road signage. Stone-grey ground, black ink, one signal yellow, and a
+  hazard-stripe band as the single loud element. Decisions read like gates:
+  a colored bar on the left edge of each purchase.
+*/
+:root {
+  --bg: #eceae6;
+  --card: #ffffff;
+  --band: #f3f1ed;
+  --field: #fbfaf8;
+  --ink: #15171a;
+  --muted: #5b5f66;
+  --line: #cfccc4;
+  --btn: #15171a;
+  --btn-ink: #ffffff;
+  --signal: #f4c20d;
+  --signal-ink: #15171a;
+  --focus: #15171a;
+  --note-bg: #fff6cf;
+  --note-line: #e3c84f;
+  --minor: #17794a;
+  --minor-bg: #e2f3e9;
+  --crit: #b42318;
+  --crit-bg: #fce9e7;
+  --major: #8f5a00;
+  --major-bg: #fff0cc;
+  --font-body: "Barlow", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-head: "Barlow Semi Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131416;
+    --card: #1c1d20;
+    --band: #232428;
+    --field: #17181a;
+    --ink: #ecece9;
+    --muted: #a0a3a8;
+    --line: #34363b;
+    --btn: #f4c20d;
+    --btn-ink: #15171a;
+    --focus: #f4c20d;
+    --note-bg: #2a2410;
+    --note-line: #5c4d12;
+    --minor: #6fd39b;
+    --minor-bg: #12301f;
+    --crit: #ff8d82;
+    --crit-bg: #3b1b18;
+    --major: #ffc866;
+    --major-bg: #382a0e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.wrap {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 16px 72px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-head);
+  letter-spacing: 0;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.05;
+  margin: 0 0 10px;
+}
+
+/* The hazard-stripe band under the title. The one loud element on the page. */
+h1::after {
+  content: "";
+  display: block;
+  height: 10px;
+  margin-top: 12px;
+  background: repeating-linear-gradient(-45deg, var(--signal) 0 12px, #15171a 12px 24px);
+}
+
+h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 18px 0 6px;
+}
+
+.sub {
+  color: var(--muted);
+  margin: 0 0 16px;
+  max-width: 62ch;
+}
+
+.banner {
+  background: var(--note-bg);
+  border: 1px solid var(--note-line);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  max-width: 78ch;
+}
+
+/* Steps are signs: the active one is a yellow plate with a black border. */
+.steps {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.step {
+  font: inherit;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--ink);
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 6px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.step[aria-current="step"] {
+  background: var(--signal);
+  color: var(--signal-ink);
+  border-color: #15171a;
+}
+
+.step:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--ink);
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  h1 {
+    font-size: 1.9rem;
+  }
+}
+
+label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--field);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--ink);
+}
+
+textarea {
+  min-height: 96px;
+  resize: vertical;
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+button.primary,
+button.secondary,
+button.danger {
+  font: inherit;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 1.05rem;
+  border-radius: 6px;
+  padding: 7px 18px;
+  cursor: pointer;
+  border: 2px solid var(--ink);
+}
+
+button.primary {
+  background: var(--btn);
+  color: var(--btn-ink);
+  border-color: var(--btn);
+}
+
+button.secondary {
+  background: transparent;
+  color: var(--ink);
+}
+
+button.danger {
+  background: transparent;
+  color: var(--crit);
+  border-color: var(--crit);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  padding: 1px 10px;
+  white-space: nowrap;
+}
+
+.badge.approved {
+  background: var(--minor-bg);
+  color: var(--minor);
+}
+
+.badge.declined {
+  background: var(--crit-bg);
+  color: var(--crit);
+}
+
+.badge.waiting {
+  background: var(--major-bg);
+  color: var(--major);
+}
+
+ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+th {
+  font-family: var(--font-head);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 0.9rem;
+}
+
+.checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+}
+
+.checks label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--ink);
+}
+
+.checks input {
+  width: auto;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 640px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat {
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 10px 14px;
+  background: var(--card);
+}
+
+.stat .big {
+  font-family: var(--font-head);
+  font-size: 2.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.bar {
+  height: 16px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.bar > span {
+  display: block;
+  height: 100%;
+  background: var(--signal);
+  border-right: 2px solid #15171a;
+}
+
+.bar.over > span {
+  background: repeating-linear-gradient(-45deg, var(--crit) 0 8px, #15171a 8px 16px);
+}
+
+/* Each purchase is a gate: the left edge shows whether it opened. */
+.req {
+  border-top: 1px solid var(--line);
+  border-left: 5px solid var(--line);
+  padding: 10px 0 10px 12px;
+}
+
+.req:first-of-type {
+  border-top: 0;
+}
+
+.req.approved {
+  border-left-color: var(--minor);
+}
+
+.req.declined {
+  border-left-color: var(--crit);
+}
+
+.req.waiting {
+  border-left-color: var(--signal);
+}
+
+.req summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.req summary::-webkit-details-marker {
+  display: none;
+}
+
+.rule-fail {
+  color: var(--crit);
+  font-weight: 600;
+}
+
+.rule-hold {
+  color: var(--major);
+  font-weight: 600;
+}
+
+.rule-ok {
+  color: var(--muted);
+}
